@@ -1,8 +1,20 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <time.h>
+// 10.33-单链表实现简单选择排序
+// Description
+// 试以单链表为存储结构实现简单选择排序的算法
+
+// Input
+// 输入为一组待排序的数字序列，共一行
+
+// Output
+// 输出是将利用简单选择排序的数字序列按递增顺序排列
+
+// Sample Input 1 
+// 4 8 -5 27 6 13 27 0
+// Sample Output 1
+// -5 0 4 6 8 13 27 27
+
+#include <bits/stdc++.h>
+
 #define ElemType int
 
 // claim a variable called "struct LNode"
@@ -15,14 +27,30 @@ struct LNode
 // make it easier to write, use the name "listnode"
 typedef struct LNode listnode;
 
+// function declaration
+int create_list_node(listnode **pheader, ElemType data);
+int list_malloc(listnode **pnode);
+int free_list_node(listnode *node);
+int destroy_list(listnode *header);
+int delete_list_node(listnode *node_del, listnode *header);
+int whether_list_empty(listnode *header);
+int list_length(listnode *header);
+int list_index(listnode *header, int index);
+int list_locate_elem(listnode *header, listnode **pobject, ElemType data, int *compare(ElemType a, ElemType b));
+int list_prev_node(listnode *header, listnode *node, listnode **pprev);
+int list_insert_after(listnode *node, ElemType data);
+int list_insert_before(listnode **pheader, listnode *node, ElemType data);
+
+
+
 // create a new List node using the data called "data"
-int *create_list_node(listnode **pheader, ElemType data)
+int create_list_node(listnode **pheader, ElemType data)
 {
     if (list_malloc(pheader) == -1) // assign the memory needed for the node, and judge whether something wrong happened.
         return -1;
-    memset(*pheader, 0, sizeof(listnode)); // clear the of memory
-    // node->data = 100;
-    // node->next = NULL;
+    // memset(*pheader, 0, sizeof(listnode)); // clear the of memory
+    (*pheader)->data = data;
+    (*pheader)->next = NULL;
 
     return 0;
 }
@@ -197,7 +225,7 @@ int list_prev_node(listnode *header, listnode *node, listnode **pprev)
 int list_insert_after(listnode *node, ElemType data)
 {
     listnode *new_node;
-    if (create_list_node(new_node, data) == -1)
+    if (create_list_node(&new_node, data) == -1)
     {
         printf("Insert failed: cannot create new node\n");
         return -1;
@@ -219,7 +247,7 @@ int list_insert_before(listnode **pheader, listnode *node, ElemType data)
     }
     if (prev_judge == -2)
     {
-        if (create_list_node(new_node, data) == -1)
+        if (create_list_node(&new_node, data) == -1)
         {
             printf("Insert failed: cannot create new node\n");
             return -1;
@@ -232,3 +260,49 @@ int list_insert_before(listnode **pheader, listnode *node, ElemType data)
     return 0;
 }
 
+int main()
+{
+    int n, i;
+    char c;
+    listnode *header = NULL, *node, *prev, *new_node;
+
+    // Input data
+    while ((c = getchar()) != '\n' && c != EOF && ungetc(c, stdin) && std::cin >> n)
+    {
+        if (create_list_node(&node, n) == -1)
+        {
+            printf("Insert failed: cannot create new node\n");
+            return -1;
+        }
+        if (header == NULL)
+            header = node;
+        else
+        {
+            prev = header;
+            if (prev->data > n)
+            {
+                node->next = prev;
+                header = node;
+                continue;
+            }
+            while (prev->next != NULL && prev->next->data < n)
+                prev = prev->next;
+            if (prev->next == NULL)
+                prev->next = node;
+            else
+            {
+                node->next = prev->next;
+                prev->next = node;
+            }
+        }
+    }
+    node = header;
+    while (node->next != NULL)
+    {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    if (node != NULL)
+        printf("%d", node->data);
+    return 0;
+}

@@ -404,10 +404,17 @@ status sMatrixPrintVec(crossList mat)
         matNode = mat.rowHead[i];
         while (matNode != NULL)
         {
+<<<<<<< HEAD
             if (firstPrtSign == false)
                 std::cout << ' ';
             else
                 firstPrtSign = false;
+=======
+            if (firstPrtSign == FALSE)
+                std::cout << ' ';
+            else
+                firstPrtSign = FALSE;
+>>>>>>> 35be9c45b92c07bbdb58355a4d3cb05c04c7c4e6
             std::cout << matNode->elem;
             matNode = matNode->right;
         }

@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 #define maxArrayDim 8 // the maximun dimensions of the array
