@@ -1,11 +1,8 @@
 
 #include <bits/stdc++.h>
-using namespace std;
 
 #define maxArrayDim 8 // the maximun dimensions of the array
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -105,7 +102,7 @@ status arrayLocate(seqArray array, va_list ap, int *off)
     for (i = 0; i < array.dim; ++i)
     {
         ind = va_arg(ap, int);
-        // cout << ind << endl;
+        // std::cout << ind << endl;
         if (ind < 0 || ind >= array.bounds[i])
             return OVERFLOW_ARRAY;
         *off += array.constants[i] * ind;
@@ -155,7 +152,7 @@ status arrayInput(seqArray *array, int row, int col)
 
     for (i = 0; i < array->constants[0] * array->bounds[0]; ++i)
     {
-        cin >> temp;
+        std::cin >> temp;
         *(array->base + i) = temp;
     }
 
@@ -173,8 +170,8 @@ status arrayPrint_2Dim(seqArray *array)
     for (i = 0; i < row; ++i)
     {
         for (j = 0; j < col - 1; ++j)
-            cout << *(elem++) << ' ';
-        cout << *(elem++) << endl;
+            std::cout << *(elem++) << ' ';
+        std::cout << *(elem++) << std::endl;
     }
 
     return OK;

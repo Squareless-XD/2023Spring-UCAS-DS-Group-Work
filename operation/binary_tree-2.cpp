@@ -3,8 +3,6 @@
 #define STACK_INIT_SIZE 100 // 存储空间初始分配量 单位：stackElemType
 #define STACK_INCREMENT 10  // 存储空间分配增量
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR -1
 #define INFEASIBLE -2
@@ -84,12 +82,12 @@ status destoryQueue(linkedQueue *queue)
     return OK;
 }
 
-// check whether a queue is empty. if so, return TRUE
+// check whether a queue is empty. if so, return true
 status queueEmpty(linkedQueue *queue)
 {
     if (queue->front == queue->rear)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // put a new element into the queue
@@ -157,8 +155,8 @@ status destroyStack_Sq(sqStack *stack)
 status stackEmpty_Sq(sqStack *stack)
 {
     if (stack->top == stack->base)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 status getTop_Sq(sqStack *stack, stackElemType *e)
@@ -285,8 +283,8 @@ status biTreeEmpty(biTree tree)
     if (tree == NULL)
         return ERROR;
     if (tree->lchild == NULL)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 int biTreeDepth(biTNode *root)
@@ -302,32 +300,32 @@ status biTreeFindElem(biTree tree, biTElemType elemFind, biTNode **firstNode)
     if (tree == NULL)
     {
         *firstNode = NULL;
-        return FALSE;
+        return false;
     }
     if (tree->lchild != NULL && tree->lchild->data == elemFind)
     {
         *firstNode = tree->lchild;
-        return TRUE;
+        return true;
     }
     if (tree->rchild != NULL && tree->rchild->data == elemFind)
     {
         *firstNode = tree->rchild;
-        return TRUE;
+        return true;
     }
-    if (biTreeFindElem(tree->lchild, elemFind, firstNode) == TRUE || biTreeFindElem(tree->rchild, elemFind, firstNode) == TRUE)
-        return TRUE;
-    return FALSE;
+    if (biTreeFindElem(tree->lchild, elemFind, firstNode) == true || biTreeFindElem(tree->rchild, elemFind, firstNode) == true)
+        return true;
+    return false;
 }
 
 status biTreeFindNode(biTree tree, biTNode *tNodeFind)
 {
     if (tree == NULL)
-        return FALSE;
+        return false;
     if (tree == tNodeFind)
-        return TRUE;
-    if (biTreeFindNode(tree->lchild, tNodeFind) == TRUE || biTreeFindNode(tree->rchild, tNodeFind) == TRUE)
-        return TRUE;
-    return FALSE;
+        return true;
+    if (biTreeFindNode(tree->lchild, tNodeFind) == true || biTreeFindNode(tree->rchild, tNodeFind) == true)
+        return true;
+    return false;
 }
 
 // status biTreeAssign(biTNode *tNode, biTElemType elemAssign)
@@ -346,14 +344,14 @@ status biTreeParent(biTree tree, biTNode *tNodeFind, biTNode **pParent)
     if (tree == NULL || tNodeFind == NULL)
         return ERROR;
     if (tree->lchild == NULL || tree->lchild == tNodeFind)
-        return FALSE;
+        return false;
 
-    findSign = FALSE;
+    findSign = false;
     tNodeQueue = queueAlloc();
     initQueue(tNodeQueue);
     enqueue(tNodeQueue, tree->lchild);
 
-    while (queueEmpty(tNodeQueue) == FALSE)
+    while (queueEmpty(tNodeQueue) == false)
     {
         dequeue(tNodeQueue, &nodeTemp);
         if (nodeTemp->lchild != NULL)
@@ -361,7 +359,7 @@ status biTreeParent(biTree tree, biTNode *tNodeFind, biTNode **pParent)
             if (nodeTemp->lchild == tNodeFind)
             {
                 *pParent = nodeTemp;
-                findSign = TRUE;
+                findSign = true;
                 break;
             }
             enqueue(tNodeQueue, nodeTemp->lchild);
@@ -371,7 +369,7 @@ status biTreeParent(biTree tree, biTNode *tNodeFind, biTNode **pParent)
             if (nodeTemp->rchild == tNodeFind)
             {
                 *pParent = nodeTemp;
-                findSign = TRUE;
+                findSign = true;
                 break;
             }
             enqueue(tNodeQueue, nodeTemp->rchild);
@@ -415,15 +413,15 @@ status biTreeRSibling(biTree tree, biTNode *tNodeFind, biTNode **pRSibling)
 
 status biTreeDeleteChild(biTree tree, biTNode *tNodeFind, int isRChild)
 {
-    if (biTreeFindNode(tree, tNodeFind) == FALSE)
+    if (biTreeFindNode(tree, tNodeFind) == false)
         return ERROR;
 
-    if (isRChild == TRUE)
+    if (isRChild == true)
     {
         biTreeClear(tNodeFind->rchild);
         tNodeFind->rchild = NULL;
     }
-    else if (isRChild == FALSE)
+    else if (isRChild == false)
     {
         biTreeClear(tNodeFind->lchild);
         tNodeFind->lchild = NULL;
@@ -451,7 +449,7 @@ status biTreeTrvPreStack(biTNode *root, status (*visit)(biTNode *tNode))
     initStack_Sq(tNodeStack);
     push_Sq(tNodeStack, root);
 
-    while (stackEmpty_Sq(tNodeStack) == FALSE)
+    while (stackEmpty_Sq(tNodeStack) == false)
     {
         pop_Sq(tNodeStack, &nodeTemp);
         if (nodeTemp == NULL)
@@ -472,12 +470,12 @@ status biTreeTrvIn(biTNode *root, status (*visit)(biTNode *tNode))
     initStack_Sq(tNodeStack);
     push_Sq(tNodeStack, root);
 
-    while (stackEmpty_Sq(tNodeStack) == FALSE)
+    while (stackEmpty_Sq(tNodeStack) == false)
     {
         while (getTop_Sq(tNodeStack, &nodeTemp) == OK && nodeTemp != NULL)
             push_Sq(tNodeStack, nodeTemp->lchild);
         pop_Sq(tNodeStack, &nodeTemp);
-        if (stackEmpty_Sq(tNodeStack) == FALSE)
+        if (stackEmpty_Sq(tNodeStack) == false)
         {
             pop_Sq(tNodeStack, &nodeTemp);
             if (visit(nodeTemp) != OK)
@@ -509,7 +507,7 @@ status biTreeTrvLevel(biTNode *root, status (*visit)(biTNode *tNode))
     initQueue(tNodeQueue);
     enqueue(tNodeQueue, root);
 
-    while (queueEmpty(tNodeQueue) == FALSE)
+    while (queueEmpty(tNodeQueue) == false)
     {
         dequeue(tNodeQueue, &nodeTemp);
         if (nodeTemp == NULL)
@@ -533,19 +531,19 @@ status biTreeFullJudge(biTNode *root)
     int fullSign;
 
     if (root == NULL)
-        return TRUE;
+        return true;
 
     tNodeStack = stackAlloc();
     initStack_Sq(tNodeStack);
     push_Sq(tNodeStack, root);
-    fullSign = TRUE;
+    fullSign = true;
 
-    while (stackEmpty_Sq(tNodeStack) == FALSE)
+    while (stackEmpty_Sq(tNodeStack) == false)
     {
         pop_Sq(tNodeStack, &nodeTemp);
         if ((nodeTemp->lchild != NULL) != (nodeTemp->rchild != NULL))
         {
-            fullSign = FALSE;
+            fullSign = false;
             break;
         }
         if (nodeTemp->rchild != NULL && nodeTemp->lchild != NULL)
@@ -569,20 +567,20 @@ status biTreeCompleteJudge(biTNode *root)
     tNodeQueue = queueAlloc();
     initQueue(tNodeQueue);
     enqueue(tNodeQueue, root);
-    reachNull = FALSE;
-    completeSign = TRUE;
+    reachNull = false;
+    completeSign = true;
 
-    while (queueEmpty(tNodeQueue) == FALSE)
+    while (queueEmpty(tNodeQueue) == false)
     {
         dequeue(tNodeQueue, &nodeTemp);
         if (nodeTemp == NULL)
         {
-            reachNull = TRUE;
+            reachNull = true;
             continue;
         }
-        if (reachNull == TRUE) // this "if" passed only when last "if" isn't met
+        if (reachNull == true) // this "if" passed only when last "if" isn't met
         {
-            completeSign = FALSE;
+            completeSign = false;
             break;
         }
         enqueue(tNodeQueue, nodeTemp->lchild);

@@ -4,8 +4,6 @@
 #define STACK_INCREMENT 10  // 存储空间分配增量
 #define MAX_VERTEX_NUM 100
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE 2
@@ -102,12 +100,12 @@ status destoryQueue(linkedQueue *queue)
     return OK;
 }
 
-// check whether a queue is empty. if so, return TRUE
+// check whether a queue is empty. if so, return true
 status queueEmpty(linkedQueue *queue)
 {
     if (queue->front == queue->rear)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // put a new element into the queue
@@ -175,8 +173,8 @@ status destroyStack_Sq(sqStack *stack)
 status stackEmpty_Sq(sqStack *stack)
 {
     if (stack->top == stack->base)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 status getTop_Sq(sqStack *stack, stackElemType *e)
@@ -429,10 +427,10 @@ status insertVex(matGraph *graph, vexType vertex)
     {
         for (index = 0; index < graph->vexNum - 1; ++index)
         {
-            graph->arcs[graph->vexNum - 1][index] = FALSE;
-            graph->arcs[index][graph->vexNum - 1] = FALSE;
+            graph->arcs[graph->vexNum - 1][index] = false;
+            graph->arcs[index][graph->vexNum - 1] = false;
         }
-        graph->arcs[graph->vexNum - 1][graph->vexNum - 1] = FALSE;
+        graph->arcs[graph->vexNum - 1][graph->vexNum - 1] = false;
     }
     if (graph->kind == directNet || graph->kind == undirectNet)
     {
@@ -472,14 +470,14 @@ status deleteVex(matGraph *graph, vexType vertex)
     deleteArcNum = 0;
     for (index1 = 0; index1 < graph->vexNum + 1; ++index1)
     {
-        if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[index1][pos] == TRUE ||
+        if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[index1][pos] == true ||
             (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[index1][pos] != INT_MAX)
             ++deleteArcNum;
-        if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][index1] == TRUE ||
+        if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][index1] == true ||
             (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[pos][index1] != INT_MAX)
             ++deleteArcNum;
     }
-    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][pos] == TRUE ||
+    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][pos] == true ||
         (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[pos][pos] != INT_MAX)
         --deleteArcNum;
     graph->arcNum -= deleteArcNum;
@@ -504,20 +502,20 @@ status deleteVex(matGraph *graph, vexType vertex)
 status insertArc(matGraph *graph, vexType vexFrom, vexType vexTo, int weight)
 {
     // if the arc exsists
-    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[vexFrom][vexTo] == TRUE ||
+    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[vexFrom][vexTo] == true ||
         (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[vexFrom][vexTo] != INT_MAX)
         return ERROR;
 
     // assign the arc
     ++graph->arcNum;
     if (graph->kind == directGraph || graph->kind == undirectGraph)
-        graph->arcs[vexFrom][vexTo] == TRUE;
+        graph->arcs[vexFrom][vexTo] == true;
     else
         graph->arcs[vexFrom][vexTo] == weight;
 
     // if symmetric
     if (graph->kind == undirectGraph)
-        graph->arcs[vexTo][vexFrom] == TRUE;
+        graph->arcs[vexTo][vexFrom] == true;
     else if (graph->kind == undirectNet)
         graph->arcs[vexTo][vexFrom] == weight;
 
@@ -527,19 +525,19 @@ status insertArc(matGraph *graph, vexType vexFrom, vexType vexTo, int weight)
 status deleteArc(matGraph *graph, vexType vexFrom, vexType vexTo)
 {
     // if the arc does not exsist
-    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[vexFrom][vexTo] == FALSE ||
+    if ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[vexFrom][vexTo] == false ||
         (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[vexFrom][vexTo] == INT_MAX)
         return ERROR;
 
     --graph->arcNum;
     if (graph->kind == directGraph || graph->kind == undirectGraph)
-        graph->arcs[vexFrom][vexTo] == FALSE;
+        graph->arcs[vexFrom][vexTo] == false;
     else
         graph->arcs[vexFrom][vexTo] == INT_MAX;
 
     // if symmetric
     if (graph->kind == undirectGraph)
-        graph->arcs[vexTo][vexFrom] == FALSE;
+        graph->arcs[vexTo][vexFrom] == false;
     else if (graph->kind == undirectNet)
         graph->arcs[vexTo][vexFrom] == INT_MAX;
 
@@ -559,20 +557,20 @@ status DFSTraverse(matGraph *graph, status (*visit)(vexType vertex))
     initStack_Sq(vexStack);
 
     for (i = 0; i < graph->vexNum; ++i) // initialize marking array
-        travTemp[i] = FALSE;
+        travTemp[i] = false;
     push_Sq(vexStack, 0); // push the first vertex into the stack
 
-    while (stackEmpty_Sq(vexStack) == FALSE)
+    while (stackEmpty_Sq(vexStack) == false)
     {
         pop_Sq(vexStack, &pos);   // get the vertex
-        if (travTemp[pos] == TRUE)          // if the vertex has been visited, continue
+        if (travTemp[pos] == true)          // if the vertex has been visited, continue
             continue;
-        travTemp[pos] = TRUE;       // set the vertex as having visited
+        travTemp[pos] = true;       // set the vertex as having visited
         visit(graph->vexs[pos]);    // visit the vertex
 
         for (nextPos = 0; nextPos < graph->vexNum; ++nextPos) // pushing new verteces into the stack
-            if (travTemp[nextPos] == FALSE &&
-                ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][nextPos] == TRUE ||
+            if (travTemp[nextPos] == false &&
+                ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][nextPos] == true ||
                  (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[pos][nextPos] != INT_MAX))
                 push_Sq(vexStack, nextPos);
     }
@@ -596,22 +594,22 @@ status BFSTraverse(matGraph *graph, status (*visit)(vexType vertex))
     initQueue(vexQueue);
 
     for (i = 1; i < graph->vexNum; ++i) // initialize marking array
-        travTemp[i] = FALSE;
-    travTemp[0] = TRUE;
+        travTemp[i] = false;
+    travTemp[0] = true;
     enqueue(vexQueue, 0); // push the first vertex into the stack
 
-    while (queueEmpty(vexQueue) == FALSE)
+    while (queueEmpty(vexQueue) == false)
     {
         dequeue(vexQueue, &pos);   // get the vertex
         visit(graph->vexs[pos]);    // visit the vertex
 
         for (nextPos = 0; nextPos < graph->vexNum; ++nextPos) // pushing new verteces into the stack
-            if (travTemp[nextPos] == FALSE &&
-                ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][nextPos] == TRUE ||
+            if (travTemp[nextPos] == false &&
+                ((graph->kind == directGraph || graph->kind == undirectGraph) && graph->arcs[pos][nextPos] == true ||
                  (graph->kind == directNet || graph->kind == undirectNet) && graph->arcs[pos][nextPos] != INT_MAX))
             {
                 enqueue(vexQueue, nextPos);
-                travTemp[nextPos] = TRUE;
+                travTemp[nextPos] = true;
             }
     }
 

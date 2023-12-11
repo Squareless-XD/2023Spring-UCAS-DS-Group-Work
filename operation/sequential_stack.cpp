@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 #define STACK_INIT_SIZE 100 // 存储空间初始分配量 单位：stackElemType
 #define STACK_INCREMENT 10  // 存储空间分配增量
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -72,8 +69,8 @@ status clearStack_Sq(sqStack *stack)
 status stackEmpty_Sq(sqStack *stack)
 {
     if (stack->top == stack->base)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 int stackLength_Sq(sqStack *stack)

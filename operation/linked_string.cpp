@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
-using namespace std;
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -122,15 +119,15 @@ int strLength(lString str)
 status strEmpty(lString str)
 {
     if (str.head == NULL && str.tail == NULL && str.len == 0)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // if str1 is larger, then return 1. Smaller: -1. Euqal: 0.
 status strCompare(lString str1, lString str2)
 {
     int strLen1 = strLength(str1), strLen2 = strLength(str2);
-    int minStrLen = min(strLen1, strLen2); // find the minimum to check whether it is right to focus on the shared length
+    int minStrLen = std::min(strLen1, strLen2); // find the minimum to check whether it is right to focus on the shared length
     int index = 1, cmpTemp;
     strNode *node1 = str1.head, *node2 = str2.head;
 
@@ -307,7 +304,7 @@ int strIndex(lString str, lString pattern, int pos)
     // all posibility: starting with first "str.len-pattern.len+1" nodes.
     while (indexStr <= str.len - pattern.len + 1)
     {
-        breakSign = FALSE;
+        breakSign = false;
 
         // compare the first character
         nodePat = pattern.head;
@@ -326,11 +323,11 @@ int strIndex(lString str, lString pattern, int pos)
             nodePat = nodePat->next;
             if (nodeStrCmp->chdata != nodePat->chdata)
             {
-                breakSign = TRUE;
+                breakSign = true;
                 break;
             }
         }
-        if (breakSign == FALSE) // this means the corrct substring was found
+        if (breakSign == false) // this means the corrct substring was found
             return indexStr;
 
         nodeStr = nodeStr->next;
@@ -596,10 +593,10 @@ void strPrint(lString str)
     node = str.head;
     while (node != NULL)
     {
-        cout << node->chdata;
+        std::cout << node->chdata;
         node = node->next;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void strPrintNoEndl(lString str)
@@ -610,7 +607,7 @@ void strPrintNoEndl(lString str)
     node = str.head;
     while (node != NULL)
     {
-        cout << node->chdata;
+        std::cout << node->chdata;
         node = node->next;
     }
 }
@@ -637,7 +634,7 @@ status strFindElem(lString str, char toFind, strNode *position)
     if (str.head == NULL)
     {
         position = NULL;
-        return FALSE;
+        return false;
     }
     node = str.head;
     while (node != NULL)
@@ -645,10 +642,10 @@ status strFindElem(lString str, char toFind, strNode *position)
         if (node->chdata == toFind)
         {
             position = node;
-            return TRUE;
+            return true;
         }
         node = node->next;
     }
     position = NULL;
-    return FALSE;
+    return false;
 }

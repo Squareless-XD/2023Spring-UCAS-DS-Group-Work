@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 #define STACK_INIT_SIZE 100 // 存储空间初始分配量 单位：stackElemType
 #define STACK_INCREMENT 10  // 存储空间分配增量
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -88,12 +85,12 @@ status destoryQueue(linkedQueue *queue)
     return OK;
 }
 
-// check whether a queue is empty. if so, return TRUE
+// check whether a queue is empty. if so, return true
 status queueEmpty(linkedQueue *queue)
 {
     if (queue->front == queue->rear)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // put a new element into the queue
@@ -161,8 +158,8 @@ status destroyStack_Sq(sqStack *stack)
 status stackEmpty_Sq(sqStack *stack)
 {
     if (stack->top == stack->base)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 status getTop_Sq(sqStack *stack, stackElemType *e)
@@ -259,12 +256,12 @@ status biTreeThreaded(biTNode *biTree)
     push_Sq(tNodeStack, biTree);
     nodeLast = NULL;
 
-    while (stackEmpty_Sq(tNodeStack) == FALSE)
+    while (stackEmpty_Sq(tNodeStack) == false)
     {
         while (getTop_Sq(tNodeStack, &nodeTemp) == OK && nodeTemp != NULL)
             push_Sq(tNodeStack, nodeTemp->lchild);
         pop_Sq(tNodeStack, &nodeTemp);
-        if (stackEmpty_Sq(tNodeStack) == FALSE)
+        if (stackEmpty_Sq(tNodeStack) == false)
         {
             pop_Sq(tNodeStack, &nodeTemp);
             addNewThread(nodeTemp, nodeLast);   // add new thread between two node
@@ -333,8 +330,8 @@ status biTreeClear(biTNode *biTree)
 status biTreeEmpty(biTNode *biTree)
 {
     if (biTree == NULL)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 int biTreeDepth(biTNode *biTree)
@@ -348,7 +345,7 @@ int biTreeDepth(biTNode *biTree)
     if (biTree->rTag == THREAD) // no rchild, but it has lchild
         return biTreeDepth(biTree->lchild) + 1;
     // has 2 children
-    return max(biTreeDepth(biTree->lchild), biTreeDepth(biTree->rchild)) + 1;
+    return std::max(biTreeDepth(biTree->lchild), biTreeDepth(biTree->rchild)) + 1;
 }
 
 status biTreeFindElem(biTNode *biTree, biTElemType elemFind, biTNode **firstNode)
@@ -356,27 +353,27 @@ status biTreeFindElem(biTNode *biTree, biTElemType elemFind, biTNode **firstNode
     if (biTree == NULL)
     {
         *firstNode = NULL;
-        return FALSE;
+        return false;
     }
     if (biTree->data == elemFind)
     {
         *firstNode = biTree;
-        return TRUE;
+        return true;
     }
-    if (biTreeFindElem(biTree->lchild, elemFind, firstNode) == TRUE || biTreeFindElem(biTree->rchild, elemFind, firstNode) == TRUE)
-        return TRUE;
-    return FALSE;
+    if (biTreeFindElem(biTree->lchild, elemFind, firstNode) == true || biTreeFindElem(biTree->rchild, elemFind, firstNode) == true)
+        return true;
+    return false;
 }
 
 status biTreeFindNode(biTNode *biTree, biTNode *tNodeFind)
 {
     if (biTree == NULL)
-        return FALSE;
+        return false;
     if (biTree == tNodeFind)
-        return TRUE;
-    if (biTreeFindNode(biTree->lchild, tNodeFind) == TRUE || biTreeFindNode(biTree->rchild, tNodeFind) == TRUE)
-        return TRUE;
-    return FALSE;
+        return true;
+    if (biTreeFindNode(biTree->lchild, tNodeFind) == true || biTreeFindNode(biTree->rchild, tNodeFind) == true)
+        return true;
+    return false;
 }
 
 status biTreeAssign(biTNode *tNode, biTElemType elemAssign)
@@ -431,14 +428,14 @@ status biTreeRSibling(biTNode *biTree, biTNode *tNodeFind, biTNode **pRSibling)
 
 status biTreeDeleteChild(biTNode *biTree, biTNode *tNodeFind, int isRChild)
 {
-    if (biTreeFindNode(biTree, tNodeFind) == FALSE)
+    if (biTreeFindNode(biTree, tNodeFind) == false)
         return ERROR;
-    if (isRChild == TRUE)
+    if (isRChild == true)
     {
         biTreeClear(tNodeFind->rchild);
         tNodeFind->rchild = NULL;
     }
-    else if (isRChild == FALSE)
+    else if (isRChild == false)
     {
         biTreeClear(tNodeFind->lchild);
         tNodeFind->lchild = NULL;
@@ -466,7 +463,7 @@ status biTreeTrvPreStack(biTNode *biTree, status (*visit)(biTNode *tNode))
     initStack_Sq(tNodeStack);
     push_Sq(tNodeStack, biTree);
 
-    while (stackEmpty_Sq(tNodeStack) == FALSE)
+    while (stackEmpty_Sq(tNodeStack) == false)
     {
         pop_Sq(tNodeStack, &nodeTemp);
         if (nodeTemp == NULL)
@@ -520,7 +517,7 @@ status biTreeTrvLevel(biTNode *biTree, status (*visit)(biTNode *tNode))
     initQueue(tNodeQueue);
     enqueue(tNodeQueue, biTree);
 
-    while (queueEmpty(tNodeQueue) == FALSE)
+    while (queueEmpty(tNodeQueue) == false)
     {
         dequeue(tNodeQueue, &nodeTemp);
         if (nodeTemp == NULL)

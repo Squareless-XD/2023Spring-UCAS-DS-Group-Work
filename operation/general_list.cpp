@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 #include <vector>
-using namespace std;
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -157,11 +154,11 @@ status gListCreate(genList *glist, char *listChars_init, int length)
         ;
     if (listChars[index] == ',')
     {
-        tailExist = TRUE;
+        tailExist = true;
         listChars[index] = '(';
     }
     else if (index == indexEnd)
-        tailExist = FALSE;
+        tailExist = false;
     else
         return ERROR;
 
@@ -191,7 +188,7 @@ status gListCreate(genList *glist, char *listChars_init, int length)
     else
         ERROR;
 
-    if (tailExist == TRUE)
+    if (tailExist == true)
     {
         if (gListAlloc(&newList) != OK)
             return ERROR;
@@ -338,7 +335,7 @@ status gListPrint(genList *glist)
     }
     else if (glist->tag == ATOM)
     {
-        cout << glist->atom;
+        std::cout << glist->atom;
     }
     else if (glist->tag == LIST)
     {

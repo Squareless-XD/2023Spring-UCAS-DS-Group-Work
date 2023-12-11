@@ -1,10 +1,7 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 #define MAXSTRLEN 255
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -52,8 +49,8 @@ int strLength(sString str)
 status strEmpty(sString str)
 {
     if (str[0] == 0)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // return    1<2: -?   1=2: 0   1>2: ?   Error: -2
@@ -62,7 +59,7 @@ status strCompare(sString str1, sString str2)
     if (str1 == str2)
         return 0;
     int strLen1 = strLength(str1), strLen2 = strLength(str2);
-    int minStrLen = min(strLen1, strLen2);
+    int minStrLen = std::min(strLen1, strLen2);
     int index = 1;
     while (minStrLen--)
     {

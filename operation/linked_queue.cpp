@@ -1,8 +1,5 @@
 #include <bits/stdc++.h>
-using namespace std;
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -80,12 +77,12 @@ status clearQueue(linkedQueue *queue)
     return OK;
 }
 
-// check whether a queue is empty. if so, return TRUE
+// check whether a queue is empty. if so, return true
 status queueEmpty(linkedQueue *queue)
 {
     if (queue->front == queue->rear)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // get the length of the queue

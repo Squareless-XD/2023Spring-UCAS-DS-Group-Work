@@ -4,8 +4,6 @@
 #define STACK_INCREMENT 10  // 存储空间分配增量
 #define MAX_VERTEX_NUM 150
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE 2
@@ -106,12 +104,12 @@ status destoryQueue(linkedQueue *queue)
     return OK;
 }
 
-// check whether a queue is empty. if so, return TRUE
+// check whether a queue is empty. if so, return true
 status queueEmpty(linkedQueue *queue)
 {
     if (queue->front == queue->rear)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 // put a new element into the queue
@@ -179,8 +177,8 @@ status destroyStack_Sq(sqStack *stack)
 status stackEmpty_Sq(sqStack *stack)
 {
     if (stack->top == stack->base)
-        return TRUE;
-    return FALSE;
+        return true;
+    return false;
 }
 
 status getTop_Sq(sqStack *stack, stackElemType *e)
@@ -534,17 +532,17 @@ status DFSTraverseAL(aLGraph *graph, status (*visit)(vexType vertex))
     initStack_Sq(vexStack);
 
     for (i = 0; i < graph->vexNum; ++i)
-        vexVisited[i] = FALSE;
+        vexVisited[i] = false;
 
     while (pos = (allVisited(vexVisited, graph->vexNum)) != -1)
     {
         push_Sq(vexStack, pos);
-        while (stackEmpty_Sq(vexStack) == FALSE)
+        while (stackEmpty_Sq(vexStack) == false)
         {
             pop_Sq(vexStack, &pos);      // get the vertex
-            if (vexVisited[pos] == TRUE) // if the vertex has been visited, continue
+            if (vexVisited[pos] == true) // if the vertex has been visited, continue
                 continue;
-            vexVisited[pos] = TRUE;       // set the vertex as having visited
+            vexVisited[pos] = true;       // set the vertex as having visited
             visit(graph->vexs[pos].data); // visit the vertex
 
             arcPass = graph->vexs[pos].firstArc;
@@ -577,13 +575,13 @@ status BFSTraverseAL(aLGraph *graph, status (*visit)(vexType vertex))
     initQueue(vexQueue);
 
     for (i = 0; i < graph->vexNum; ++i)
-        vexVisited[i] = FALSE;
+        vexVisited[i] = false;
 
     while (pos = (allVisited(vexVisited, graph->vexNum)) != -1)
     {
         enqueue(vexQueue, pos);
-        vexVisited[pos] = TRUE;
-        while (queueEmpty(vexQueue) == FALSE)
+        vexVisited[pos] = true;
+        while (queueEmpty(vexQueue) == false)
         {
             dequeue(vexQueue, &pos);      // get the vertex
             visit(graph->vexs[pos].data); // visit the vertex
@@ -591,7 +589,7 @@ status BFSTraverseAL(aLGraph *graph, status (*visit)(vexType vertex))
             arcPass = graph->vexs[pos].firstArc;
             while (arcPass != NULL)
             {
-                vexVisited[arcPass->adjVex] = TRUE;       // set the vertex as having visited
+                vexVisited[arcPass->adjVex] = true;       // set the vertex as having visited
                 enqueue(vexQueue, arcPass->adjVex);
                 arcPass = arcPass->nextArc;
             }
@@ -608,7 +606,7 @@ int allVisited(status vexVisited[], int length)
     int i;
 
     for (i = 0; i < length; ++i)
-        if (vexVisited[i] == FALSE)
+        if (vexVisited[i] == false)
             return i;
     return -1;
 }

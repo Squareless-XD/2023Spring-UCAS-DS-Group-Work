@@ -1,10 +1,7 @@
 #include <bits/stdc++.h>
-using namespace std;
 
 #define CHUNKSIZE 80 // tip: the length is fixed
 
-#define TRUE 1
-#define FALSE 0
 #define OK 0
 #define ERROR 1
 #define INFEASIBLE -1
@@ -113,7 +110,7 @@ status strCopy_L(lString *des, lString src)
 status strEmpty_L(lString *str)
 {
     if (str->head == NULL && str->tail == NULL && str->len == 0)
-        return TRUE;
+        return true;
     else
         return ERROR;
 }
